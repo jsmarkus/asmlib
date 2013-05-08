@@ -1,0 +1,38 @@
+
+#change to your executable name
+NAME=app
+
+#change to your asmlib path
+ASMLIB_INC := asmlib/inc/
+
+#---------------------------------------
+
+ARCH := $(shell getconf LONG_BIT)
+OBJ_FORMAT := elf$(ARCH)
+BITS_DEFINE := BITS$(ARCH)
+
+all: $(NAME)
+
+test:
+	@echo ----test:----
+	./$(NAME)
+	@echo
+	@echo ----end. ----
+
+testhex:
+	@echo ----test:----
+	./$(NAME) | hexdump -C
+	@echo
+	@echo ----end. ----
+
+clean:
+	rm -f $(NAME).o
+	rm -f $(NAME)
+
+%.o: %.asm
+	nasm $< -f$(OBJ_FORMAT) -d$(BITS_DEFINE) -I$(ASMLIB_INC)
+
+%: %.o
+	ld -o $@ $<
+
+.PHONY: all clean test testhex
