@@ -6,6 +6,7 @@
 
     %define full_bp rbp
     %define full_sp rsp
+    %define full_di rdi
 %else
     %define full_ax eax
     %define full_bx ebx
@@ -14,4 +15,5 @@
 
     %define full_bp ebp
     %define full_sp esp
+    %define full_di edi
 %endif
